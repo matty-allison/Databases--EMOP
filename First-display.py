@@ -30,6 +30,7 @@ class Weclome:
 
     def Login(self):
         root.destroy()
+        import log_in
 
     def Visit(self):
         root.destroy()
