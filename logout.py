@@ -24,10 +24,32 @@ class LogOut:
         self.logbtn = Button(master, text="log in")
         self.logbtn.place(x=190, y=200)
         self.logbtn.config(bg="green", borderwidth="10")
-        self.backbtn = Button(master, text="Back")
-        self.backbtn.place(x=10, y=250)
-        self.backbtn.config(bg="green", borderwidth="5")
-    def backbtn(self):
-        hold.destroy()
+    def logOut(self):
+        try:
+            if self.name_entry.get() == "":
+                messagebox.showerror('ERROR', "Invalid entry")
+            elif self.id_entry.get() == "":
+                messagebox.showerror('ERROR', "Invalid entry")
+            elif len(self.id_entry.get()) != 13:
+                messagebox.showerror('ERROR', "Invalid ID number")
+            else:
+                now = datetime.datetime.now()
+                signout_time = now.strftime("%y-%m-%d %H:%M:%S")
+                db = mysql.connector.connect(
+                        host='127.0.0.1',
+                        user='lifechoices',
+                        password='@Lifechoices1234',
+                        auth_plugin='mysql_native_password',
+                        database='sign_up_and_log_in'
+                        )
+                cursor = db.cursor()
+                code = "INSERT INTO mytable_students (sign_out) VALUES (%s)"
+                values = (signout_time)
+                cursor.execute(code, values)
+                db.commit()
+                messagebox.showinfo('GOODBYE', "Thank you for visiting lifechoices Academy do come again.")
+        except ValueError:
+            if self.id_entry.get() != int:
+                messagebox.showerror('ERROR', "Please enter a valid ID number")
 y = LogOut(hold)
 hold.mainloop()

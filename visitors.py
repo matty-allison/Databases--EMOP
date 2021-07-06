@@ -48,27 +48,33 @@ class visit:
         self.backbtn = Button(master, text="Back", command=self.Back)
         self.backbtn.place(x=10, y=570)
         self.backbtn.config(bg="green", borderwidth="5")
+        self.logout = Button(master, text="Log out", command=self.LOGout)
+        self.logout.place(x=355, y=570)
+        self.logout.config(bg="green", borderwidth="5")
     def Back(self):
         root.destroy()
         import First
+    def LOGout(self):
+        root.destroy()
+        import logout
     def visitor(self):
         try:
             if self.name_entry.get() == "":
-                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+                messagebox.showerror('STATUS', "Invalid, please fill in all the required information")
             elif self.ID_entry.get() == "":
-                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+                messagebox.showerror('STATUS', "Invalid, please fill in all the required information")
             elif self.no_entry.get() == "":
-                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+                messagebox.showerror('STATUS', "Invalid, please fill in all the required information")
             elif self.kinname_entry.get() == "":
-                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+                messagebox.showerror('STATUS', "Invalid, please fill in all the required information")
             elif self.kinnumber_entry.get() == "":
-                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+                messagebox.showerror('STATUS', "Invalid, please fill in all the required information")
             elif len(self.no_entry.get()) != 10:
-                messagebox.showerror('ERROR', "Please enter a valid phone number")
+                messagebox.showerror('STATUS', "Please enter a valid phone number")
             elif len(self.kinnumber_entry.get()) != 10:
-                messagebox.showerror('ERROR', "Please enter a valid phone number")
+                messagebox.showerror('STATUS', "Please enter a valid phone number")
             elif len(self.ID_entry.get()) != 13:
-                messagebox.showerror('ERROR', "Invalid ID")
+                messagebox.showerror('STATUS', "Invalid ID")
             else:
                 now = datetime.datetime.now()
                 signin_time = now.strftime("%y-%m-%d %H:%M:%S")
@@ -83,12 +89,13 @@ class visit:
                 code = "INSERT INTO visitors (name, id_number, cell_number, next_of_kin_name, next_of_kin_number, sign_in) VALUES (%s, %s, %s, %s, %s, %s)"
                 values = (self.name_entry.get(), self.ID_entry.get(), self.no_entry.get(), self.kinname_entry.get(), self.kinnumber_entry.get(), signin_time)
                 cursor.execute(code, values)
-                messagebox.showinfo('WELCOME, "you have successfully signed up to Lifechoices Academy')
+                db.commit()
+                messagebox.showinfo('WELCOME', "you have offically began your visit to Lifechoices Academy, when you leave the premise please sign out by clicking the log out button and follow the steps")
         except ValueError:
             if self.name_entry.get() != str:
-                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
+                messagebox.showerror('STATUS', "Invalid, please provide letters not numbers for the name")
             elif self.kinname_entry.get() != str:
-                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
+                messagebox.showerror('STATUS', "Invalid, please provide letters not numbers for the name")
 
 w = visit(root)
 root.mainloop()

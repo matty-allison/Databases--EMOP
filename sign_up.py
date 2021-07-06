@@ -90,7 +90,8 @@ class sign:
                 code = "INSERT INTO mytable_students (name, id_number, cell_number, next_of_kin_name, next_of_kin_number, sign_in) VALUES (%s, %s, %s, %s, %s, %s)"
                 values = (self.name_entry.get(), self.ID_entry.get(), self.no_entry.get(), self.kinname_entry.get(), self.kinnumber_entry.get(), signin_time)
                 cursor.execute(code, values)
-                messagebox.showinfo('WELCOME, "you have successfully signed up to Lifechoices Academy, when you leave the premise please sign out by clicking the log out button and follow the steps')
+                db.commit()
+                messagebox.showinfo('WELCOME', "you have successfully signed up to Lifechoices Academy, when you leave the premise please sign out by clicking the log out button and follow the steps")
         except ValueError:
             if self.name_entry.get() != str:
                 messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")

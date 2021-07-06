@@ -48,7 +48,7 @@ class log:
                     database='sign_up_and_log_in'
                     )
                  my_cursor = db.cursor()
-                 my_cursor.execute("SELECT * FROM mytable_students where name=%s and id_number=%s",(self.name_entry.get(), self.id_entry.get()))
+                 my_cursor.execute("SELECT * FROM sign_up_and_log_in.mytable_students where name=%s and id_number=%s", (self.name_entry.get(), self.id_entry.get()))
                  row = my_cursor.fetchone()
                  if row != None:
                     messagebox.showerror('STATUS', "Invalid name or ID number")
