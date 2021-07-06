@@ -34,6 +34,7 @@ class Weclome:
 
     def Visit(self):
         root.destroy()
+        import visitors
 
 y = Weclome(root)
 root.mainloop()
