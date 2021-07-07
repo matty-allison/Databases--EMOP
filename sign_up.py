@@ -57,7 +57,7 @@ class sign:
         import First
     def LOGout(self):
         window.destroy()
-        import logout
+        import logoutstudents
     def signUP(self):
         try:
             if self.name_entry.get() == "":

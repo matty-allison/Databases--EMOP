@@ -56,7 +56,7 @@ class visit:
         import First
     def LOGout(self):
         root.destroy()
-        import logout
+        import logoutstudents
     def visitor(self):
         try:
             if self.name_entry.get() == "":

@@ -23,6 +23,9 @@ class Weclome:
         self.visiting = Button(master, text="Just Visiting", command=self.Visit)
         self.visiting.place(x=162, y=290)
         self.visiting.config(bg="#9ccb3b", borderwidth="10")
+        self.logout = Button(master, text="Log out", command=self.LOGout)
+        self.logout.place(x=10, y=300)
+        self.logout.config(bg="green", borderwidth="5")
 
     def Signup(self):
         root.destroy()
@@ -35,6 +38,10 @@ class Weclome:
     def Visit(self):
         root.destroy()
         import visitors
+
+    def LOGout(self):
+        root.destroy()
+        import logoutstudents
 
 y = Weclome(root)
 root.mainloop()
