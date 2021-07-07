@@ -49,9 +49,9 @@ class sign:
         self.backbtn = Button(master, text="Back", command=self.Back)
         self.backbtn.place(x=10, y=570)
         self.backbtn.config(bg="green", borderwidth="5")
-        self.logout = Button(master, text="Log out")
+        self.logout = Button(master, text="Log out", command=self.LOGout)
         self.logout.place(x=355, y=570)
-        self.logout.config(bg="green", borderwidth="5")
+        self.logout.config(bg="green", borderwidth="5", state="disabled")
     def Back(self):
         window.destroy()
         import First
@@ -91,6 +91,7 @@ class sign:
                 values = (self.name_entry.get(), self.ID_entry.get(), self.no_entry.get(), self.kinname_entry.get(), self.kinnumber_entry.get(), signin_time)
                 cursor.execute(code, values)
                 db.commit()
+                self.logout.config(state="normal")
                 messagebox.showinfo('WELCOME', "you have successfully signed up to Lifechoices Academy, when you leave the premise please sign out by clicking the log out button and follow the steps")
         except ValueError:
             if self.name_entry.get() != str:

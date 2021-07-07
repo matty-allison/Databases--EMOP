@@ -27,9 +27,16 @@ class log:
         self.backbtn = Button(master, text="Back", command=self.Back)
         self.backbtn.place(x=10, y=250)
         self.backbtn.config(bg="#9ccb3b", borderwidth="5")
+        self.logout = Button(master, text="Log out", command=self.LOGout)
+        self.logout.place(x=350, y=250)
+        self.logout.config(bg="green", borderwidth="5", state="disabled")
+
     def Back(self):
         box.destroy()
         import First
+    def LOGout(self):
+        box.destroy()
+        import logoutstudents
 
     def logIn(self):
         try:
@@ -54,6 +61,7 @@ class log:
                 values = (self.name_entry.get(), self.id_entry.get(), signin_time)
                 my_cursor.execute(code, values)
                 db.commit()
+                self.logout.config(state="normal")
                 messagebox.showinfo('WELCOME', "Welcome back student")
         except ValueError:
             if self.id_entry.get() != int:
