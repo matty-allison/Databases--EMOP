@@ -43,11 +43,12 @@ class LogOut:
                     database='sign_up_and_log_in'
                     )
                 my_cursor = db.cursor()
-                code = "INSERT INTO logout_students (name, id, sign_out) VALUES (%s, %s, %s)"
-                values = (self.name_entry.get(), self.id_entry.get(), signout_time)
+                code = "UPDATE mytable_students SET sign_out=%s WHERE id_number=%s"
+                values = (signout_time, self.id_entry.get())
                 my_cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('GOODBYE', "See you soon Student")
+                hold.destroy()
         except ValueError:
             if self.id_entry.get() != int:
                 messagebox.showerror('ERROR', "Please enter a valid ID number")

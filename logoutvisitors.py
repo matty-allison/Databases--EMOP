@@ -43,8 +43,8 @@ class LogOut:
                     database='sign_up_and_log_in'
                     )
                 my_cursor = db.cursor()
-                code = "INSERT INTO logout_visitors (name, id, sign_out) VALUES (%s, %s, %s)"
-                values = (self.name_entry.get(), self.id_entry.get(), signout_time)
+                code = "UPDATE visitors SET sign_out=%s WHERE id_number=%s"
+                values = (signout_time, self.id_entry.get())
                 my_cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('GOODBYE', "We hope you enjoyed your time see you next time.")

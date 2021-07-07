@@ -57,8 +57,8 @@ class log:
                     database='sign_up_and_log_in'
                     )
                 my_cursor = db.cursor()
-                code = "INSERT INTO login (student_name, id, sign_out) VALUES (%s, %s, %s)"
-                values = (self.name_entry.get(), self.id_entry.get(), signin_time)
+                code = "UPDATE mytable_students SET sign_in=%s WHERE id_number=%s"
+                values = (signin_time, self.id_entry.get())
                 my_cursor.execute(code, values)
                 db.commit()
                 self.logout.config(state="normal")
