@@ -1,3 +1,4 @@
+#this window is used to register visitors for the day and keeps there time of signing in and out
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
@@ -57,6 +58,7 @@ class visit:
     def LOGout(self):
         root.destroy()
         import logoutvisitors
+    #function for visitors sign in
     def visitor(self):
         try:
             if self.name_entry.get() == "":

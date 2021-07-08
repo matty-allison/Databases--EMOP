@@ -1,10 +1,14 @@
 from tkinter import *
-
+# First window for navigation
 root = Tk()
 root.title("Welcome to Lifechoices Academy")
 root.config(bg="Green")
 root.geometry("450x355")
-
+# Function and bind to bring in Admin features
+def admin(event):
+        root.destroy()
+        import admin
+root.bind("<Control-a>", admin)
 class Weclome:
     canvas = Canvas(root, width=300, height=80)
     canvas.place(x=75, y=10)
@@ -23,6 +27,8 @@ class Weclome:
         self.visiting = Button(master, text="Just Visiting", command=self.Visit)
         self.visiting.place(x=162, y=290)
         self.visiting.config(bg="#9ccb3b", borderwidth="10")
+
+    #functions for switching between windows
 
     def Signup(self):
         root.destroy()

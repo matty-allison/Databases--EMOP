@@ -1,3 +1,4 @@
+# the Admin window only avalible from the first window but pressing Control a
 from tkinter import *
 from tkinter import ttk
 import mysql.connector
@@ -7,8 +8,8 @@ root = Tk()
 root.title('Admin')
 root.geometry('870x500')
 root.config(bg="green")
-
 class Admin:
+    #this function is used to display the info that has been inserted into the database onto the treeview
     def __init__(self, master):
         db = mysql.connector.connect(
                         host='127.0.0.1',
@@ -22,7 +23,7 @@ class Admin:
         cursor.execute(code)
         list = cursor.fetchall()
         total = cursor.rowcount
-        print(total)
+        #this is the treeview design
         self.tree = ttk.Treeview(master)
         self.tree['columns'] = ('Name', 'ID number', 'Cell number', 'Next of kin(name)', 'Next of kin(Number)', 'Sign in', 'Sign out')
         self.tree.column('#0', width=0, stretch=NO)
@@ -42,6 +43,7 @@ class Admin:
         self.tree.heading('Next of kin(Number)', text='kin Number', anchor=CENTER)
         self.tree.heading('Sign in', text='Sign in', anchor=CENTER)
         self.tree.heading('Sign out', text='Sign out', anchor=CENTER)
+        #this is where the insert of the information happens in order to see the peoples details
         for y in list:
             value = y
             self.tree.insert('', 'end', values=value)
@@ -80,6 +82,7 @@ class Admin:
         self.exit = Button(master, text="Exit", command=self.Exit)
         self.exit.place(x=600, y=400)
         self.exit.config(bg="#9ccb3b", borderwidth="5")
+    #function for updating uses info
     def Update(self):
         try:
             if self.name.get() == "":
@@ -112,7 +115,7 @@ class Admin:
         except ValueError:
             if self.id_entry.get() != int:
                 messagebox.showerror('ERROR', "Enter a valid id number")
-
+    #function for Deleting of old users or a user whos info is no longer needed
     def Delete(self):
         try:
             if self.name.get() == "":
@@ -136,16 +139,18 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = ""
-                values = ()
+                code = "DELETE FROM mytable_students WHERE id_number='%s'"
+                values = (self.id_entry.get())
                 cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('CHANGE', "Record deleted")
         except ValueError:
             if self.id_entry.get() != int:
                 messagebox.showerror('ERROR', "Enter a valid id number")
+    #an exit function
     def Exit(self):
         root.destroy()
+        import First
 
 x=Admin(root)
 root.mainloop()

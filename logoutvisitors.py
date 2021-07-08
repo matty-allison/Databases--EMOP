@@ -1,3 +1,4 @@
+#the visitors sign out window inserts the time the visitor leave the premise
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox

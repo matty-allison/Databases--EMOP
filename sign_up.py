@@ -1,3 +1,4 @@
+# Sign in window used for someone who is a new student of lifechoices
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
@@ -58,6 +59,7 @@ class sign:
     def LOGout(self):
         window.destroy()
         import logoutstudents
+    #functiion used to insert there information into the datatbase, keeps date and time as well
     def signUP(self):
         try:
             if self.name_entry.get() == "":

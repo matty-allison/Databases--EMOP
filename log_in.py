@@ -1,3 +1,4 @@
+# Window for logging in a current student
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
@@ -37,7 +38,7 @@ class log:
     def LOGout(self):
         box.destroy()
         import logoutstudents
-
+    # function used to search for the persons log in info, this function also keeps track of date and time of log in
     def logIn(self):
         try:
             if self.name_entry.get() == "":

@@ -1,3 +1,4 @@
+#this window is for logging out of students
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
@@ -24,6 +25,7 @@ class LogOut:
         self.logbtn = Button(master, text="log out", command=self.logOut)
         self.logbtn.place(x=190, y=200)
         self.logbtn.config(bg="green", borderwidth="10")
+    #function for pushing date and time that they leave the premise
     def logOut(self):
         try:
             if self.name_entry.get() == "":
