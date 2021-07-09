@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import ttk
 import mysql.connector
+import datetime
 from tkinter import messagebox
 
 root = Tk()
@@ -197,6 +198,8 @@ class Admin:
             elif len(self.id_entry.get()) != 13:
                 messagebox.showerror('ERROR', "Invalid ID")
             else:
+                now = datetime.datetime.now()
+                signin_time = now.strftime("%y-%m-%d %H:%M:%S")
                 db = mysql.connector.connect(
                         host='127.0.0.1',
                         user='lifechoices',
@@ -205,8 +208,8 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = "INSERT INTO mytable_students (name, id_number, cell_number, next_of_kin_name, next_of_kin_number) VALUES (%s, %s, %s, %s, %s)"
-                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get())
+                code = "INSERT INTO mytable_students (name, id_number, cell_number, next_of_kin_name, next_of_kin_number, sign_in) VALUES (%s, %s, %s, %s, %s, %s)"
+                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get(), signin_time)
                 cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('Changed', "Record inserted")
@@ -235,6 +238,8 @@ class Admin:
             elif len(self.id_entry.get()) != 13:
                 messagebox.showerror('ERROR', "Invalid ID")
             else:
+                now = datetime.datetime.now()
+                signin_time = now.strftime("%y-%m-%d %H:%M:%S")
                 db = mysql.connector.connect(
                         host='127.0.0.1',
                         user='lifechoices',
@@ -243,8 +248,8 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = "INSERT INTO visitors (name, id_number, cell_number, next_of_kin_name, next_of_kin_number) VALUES (%s, %s, %s, %s, %s)"
-                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get())
+                code = "INSERT INTO visitors (name, id_number, cell_number, next_of_kin_name, next_of_kin_number, sign_in) VALUES (%s, %s, %s, %s, %s, %s)"
+                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get(), signin_time)
                 cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('Changed', "Record inserted")
