@@ -136,8 +136,8 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = ""
-                values = ()
+                code = "UPDATE mytable_students SET name=%s,cell_number=%s,next_of_kin_name=%s,next_of_kin_number=%s WHERE id_number=%s"
+                values = (self.name.get(), self.number.get(), self.kin_name.get(),self.kin_number.get(),self.id_entry.get())
                 cursor.execute(code, values)
                 db.commit()
                 messagebox.showinfo('CHANGED', "Record changed")
@@ -169,11 +169,11 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = ""
+                code = "DELETE FROM mytable_students WHERE id_number=%s"
                 values = (self.id_entry.get())
                 cursor.execute(code, values)
                 db.commit()
-                messagebox.showinfo('CHANGE', "Record deleted")
+                messagebox.showinfo('CHANGED', "Record deleted")
         except ValueError:
             if self.id_entry.get() != int:
                 messagebox.showerror('ERROR', "Enter a valid id number")
