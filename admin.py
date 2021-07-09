@@ -6,23 +6,11 @@ from tkinter import messagebox
 
 root = Tk()
 root.title('Admin')
-root.geometry('870x500')
+root.geometry('870x600')
 root.config(bg="green")
 class Admin:
     #this function is used to display the info that has been inserted into the database onto the treeview
     def __init__(self, master):
-        db = mysql.connector.connect(
-                        host='127.0.0.1',
-                        user='lifechoices',
-                        password='@Lifechoices1234',
-                        auth_plugin='mysql_native_password',
-                        database='sign_up_and_log_in'
-                        )
-        cursor = db.cursor()
-        code = "select * from sign_up_and_log_in.mytable_students "
-        cursor.execute(code)
-        list = cursor.fetchall()
-        total = cursor.rowcount
         #this is the treeview design
         self.tree = ttk.Treeview(master)
         self.tree['columns'] = ('Name', 'ID number', 'Cell number', 'Next of kin(name)', 'Next of kin(Number)', 'Sign in', 'Sign out')
@@ -44,9 +32,6 @@ class Admin:
         self.tree.heading('Sign in', text='Sign in', anchor=CENTER)
         self.tree.heading('Sign out', text='Sign out', anchor=CENTER)
         #this is where the insert of the information happens in order to see the peoples details
-        for y in list:
-            value = y
-            self.tree.insert('', 'end', values=value)
         self.tree.pack()
         self.name = Entry(master)
         self.name.place(x=30, y=300)
@@ -73,15 +58,60 @@ class Admin:
         self.kin_number_label = Label(master, text="Enter next of kin number: ")
         self.kin_number_label.place(x=30, y=350)
         self.kin_number_label.config(bg="green")
+        self.students = Button(master, text="Students", command=self.studentrecords)
+        self.students.place(x=250, y=390)
+        self.students.config(bg="green", borderwidth="5")
+        self.visitors = Button(master, text="Visitors", command=self.visitorrecords)
+        self.visitors.place(x=400, y=390)
+        self.visitors.config(bg="green", borderwidth="5")
+        self.insert = Button(master, text="Insert in to students", command=self.insertrecord)
+        self.insert.place(x=30, y=500)
+        self.insert.config(bg="#9ccb3b", borderwidth="5")
+        self.insertv = Button(master, text="Insert in to visitors", command=self.insertrecordv)
+        self.insertv.place(x=220, y=500)
+        self.insertv.config(bg="#9ccb3b", borderwidth="5")
         self.update = Button(master, text="Update", command=self.Update)
-        self.update.place(x=300, y=400)
+        self.update.place(x=450, y=500)
         self.update.config(bg="#9ccb3b", borderwidth="5")
         self.delete = Button(master, text="Delete", command=self.Delete)
-        self.delete.place(x=450, y=400)
+        self.delete.place(x=580, y=500)
         self.delete.config(bg="#9ccb3b", borderwidth="5")
         self.exit = Button(master, text="Exit", command=self.Exit)
-        self.exit.place(x=600, y=400)
+        self.exit.place(x=700, y=500)
         self.exit.config(bg="#9ccb3b", borderwidth="5")
+    # Function to display student records
+    def studentrecords(self):
+        db = mysql.connector.connect(
+                        host='127.0.0.1',
+                        user='lifechoices',
+                        password='@Lifechoices1234',
+                        auth_plugin='mysql_native_password',
+                        database='sign_up_and_log_in'
+                        )
+        cursor = db.cursor()
+        code = "select * from sign_up_and_log_in.mytable_students "
+        cursor.execute(code)
+        list = cursor.fetchall()
+        for y in list:
+            value = y
+            self.tree.insert('', 'end', values=value)
+    # Function to display visitor records
+    def visitorrecords(self):
+        db = mysql.connector.connect(
+                        host='127.0.0.1',
+                        user='lifechoices',
+                        password='@Lifechoices1234',
+                        auth_plugin='mysql_native_password',
+                        database='sign_up_and_log_in'
+                        )
+        cursor = db.cursor()
+        code = "select * from sign_up_and_log_in.visitors"
+        cursor.execute(code)
+        list = cursor.fetchall()
+        for y in list:
+            value = y
+            self.tree.insert('', 'end', values=value)
+
     #function for updating uses info
     def Update(self):
         try:
@@ -139,7 +169,7 @@ class Admin:
                         database='sign_up_and_log_in'
                         )
                 cursor = db.cursor()
-                code = "DELETE FROM mytable_students WHERE id_number='%s'"
+                code = ""
                 values = (self.id_entry.get())
                 cursor.execute(code, values)
                 db.commit()
@@ -147,6 +177,82 @@ class Admin:
         except ValueError:
             if self.id_entry.get() != int:
                 messagebox.showerror('ERROR', "Enter a valid id number")
+    # Function to insert records into students
+    def insertrecord(self):
+        try:
+            if self.name.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.id_entry.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.number.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.kin_name.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.kin_number.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif len(self.number.get()) != 10:
+                messagebox.showerror('ERROR', "Please enter a valid phone number")
+            elif len(self.kin_number.get()) != 10:
+                messagebox.showerror('ERROR', "Please enter a valid phone number")
+            elif len(self.id_entry.get()) != 13:
+                messagebox.showerror('ERROR', "Invalid ID")
+            else:
+                db = mysql.connector.connect(
+                        host='127.0.0.1',
+                        user='lifechoices',
+                        password='@Lifechoices1234',
+                        auth_plugin='mysql_native_password',
+                        database='sign_up_and_log_in'
+                        )
+                cursor = db.cursor()
+                code = "INSERT INTO mytable_students (name, id_number, cell_number, next_of_kin_name, next_of_kin_number) VALUES (%s, %s, %s, %s, %s)"
+                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get())
+                cursor.execute(code, values)
+                db.commit()
+                messagebox.showinfo('Changed', "Record inserted")
+        except ValueError:
+            if self.name.get() != str:
+                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
+            elif self.kin_number.get() != str:
+                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
+    # Function to insert records into students
+    def insertrecordv(self):
+        try:
+            if self.name.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.id_entry.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.number.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.kin_name.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif self.kin_number.get() == "":
+                messagebox.showerror('ERROR', "Invalid, please fill in all the required information")
+            elif len(self.number.get()) != 10:
+                messagebox.showerror('ERROR', "Please enter a valid phone number")
+            elif len(self.kin_number.get()) != 10:
+                messagebox.showerror('ERROR', "Please enter a valid phone number")
+            elif len(self.id_entry.get()) != 13:
+                messagebox.showerror('ERROR', "Invalid ID")
+            else:
+                db = mysql.connector.connect(
+                        host='127.0.0.1',
+                        user='lifechoices',
+                        password='@Lifechoices1234',
+                        auth_plugin='mysql_native_password',
+                        database='sign_up_and_log_in'
+                        )
+                cursor = db.cursor()
+                code = "INSERT INTO visitors (name, id_number, cell_number, next_of_kin_name, next_of_kin_number) VALUES (%s, %s, %s, %s, %s)"
+                values = (self.name.get(), self.id_entry.get(), self.number.get(), self.kin_name.get(), self.kin_number.get())
+                cursor.execute(code, values)
+                db.commit()
+                messagebox.showinfo('Changed', "Record inserted")
+        except ValueError:
+            if self.name.get() != str:
+                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
+            elif self.kin_number.get() != str:
+                messagebox.showerror('ERROR', "Invalid, please provide letters not numbers for the name")
     #an exit function
     def Exit(self):
         root.destroy()
